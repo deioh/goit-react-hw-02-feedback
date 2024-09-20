@@ -1,16 +1,27 @@
-export const App = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101',
-      }}
-    >
-      goit-react-hw-02-feedback
-    </div>
-  );
-};
+//import React from 'react';
+
+// import { Feedback } from './feedback/Feedback';
+// import feedbackData from '../data/Feedback.json';
+
+// export const App = () => {
+//   return <Feedback feedbackData={feedbackData} />;
+// };
+
+import { Feedback } from './feedback/Feedback';
+import feedbackData from '../data/Feedback.json';
+import React, { Component } from 'react';
+
+export class App extends Component {
+  handleclick = () => {
+    console.log('click');
+  };
+
+  render() {
+    return (
+      <>
+        <Feedback feedbackData={feedbackData} />
+        <button onClick={this.handleclick}>«Use this template»</button>
+      </>
+    );
+  }
+}
