@@ -12,15 +12,58 @@ import feedbackData from '../data/Feedback.json';
 import React, { Component } from 'react';
 
 export class App extends Component {
-  handleclick = () => {
-    console.log('click');
+  state = {
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  };
+
+  countTotalFeedback = () => {
+    const { good, neutral, bad } = this.state;
+    return good + neutral + bad;
+  };
+
+  handleClick = type => {
+    this.setState(prevState => ({
+      ...prevState,
+      [type]: prevState[type] + 1,
+    }));
   };
 
   render() {
+    // Destructure the state object to get the current
+    // values of good, neutral and bad feedback counters.
+    const { good, neutral, bad } = this.state;
+
+    // Call the countTotalFeedback method to get the total number of feedbacks
+    // and save it to the total variable.
+    const total = this.countTotalFeedback();
+    const options = ['good', 'neutral', 'bad'];
+
     return (
       <>
+        <h3>Please leave feedback</h3>
+
+        {/* Map the options array to a list of buttons with key and text content.
+        // This will render 3 buttons with the text content "Good", "Neutral", and "Bad".
+        // The key prop is required for each item in the array, and the text content
+        // is the value of each item in the array.
+        */}
+        {options.map(option => (
+          <button key={option} onClick={() => this.handleClick(option)}>
+            {option}
+          </button>
+        ))}
+
+        <div>
+          <p>Good: {good} </p>
+          <p>Neutral: {neutral} </p>
+          <p>Bad: {bad} </p>
+          <p>Total: {total} </p>
+        </div>
+
         <Feedback feedbackData={feedbackData} />
-        <button onClick={this.handleclick}>«Use this template»</button>
+        {/* <button onClick={this.handleclick}>«Use this template»</button>  */}
       </>
     );
   }
