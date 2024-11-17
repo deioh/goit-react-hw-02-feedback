@@ -7,11 +7,15 @@
 //   return <Feedback feedbackData={feedbackData} />;
 // };
 
-import { Feedback } from './feedback/Feedback';
-import feedbackData from '../data/Feedback.json';
+// import { Feedback } from './feedback/Feedback';
+// import feedbackData from '../data/Feedback.json';
+
+// import { type } from '@testing-library/user-event/dist/type';
+
 import React, { Component } from 'react';
-import { type } from '@testing-library/user-event/dist/type';
+import { FeedbackOptions } from './FeedbackOptions/FeedbackOptions';
 import { Statistics } from './Statistics/Statistics';
+import Section from './Section/Section';
 
 export class App extends Component {
   state = {
@@ -23,7 +27,12 @@ export class App extends Component {
 
   countTotalFeedback = () => {
     const { good, neutral, bad } = this.state;
-    return good + neutral + bad;
+    const total = good + neutral + bad;
+    if (total > 0) {
+      return total;
+    } else {
+      return 'No feedback given';
+    }
   };
 
   handleClick = type => {
@@ -48,29 +57,18 @@ export class App extends Component {
 
     return (
       <>
-        <h3>Please leave feedback</h3>
-        {/* Map the options array to a list of buttons with key and text content.
-        // This will render 3 buttons with the text content "Good", "Neutral", and "Bad".
-        // The key prop is required for each item in the array, and the text content
-        // is the value of each item in the array.
-        */}
-        {options.map(option => (
-          <button key={option} onClick={() => this.handleClick(option)}>
-            {option}
-          </button>
-        ))}
-        <Statistics good={good} neutral={neutral} bad={bad} total={total} />
+        <Section title="Please leave feedback">
+          <FeedbackOptions
+            options={options}
+            onleaveFeedback={this.handleClick}
+          />
+        </Section>
 
-        {/*
-        <div>
-          <p>Good: {good} </p>
-          <p>Neutral: {neutral} </p>
-          <p>Bad: {bad} </p>
-          <p>Total: {total} </p>
-        </div>
-        */}
+        <Section title="Statistics">
+          <Statistics good={good} neutral={neutral} bad={bad} total={total} />
+        </Section>
 
-        <Feedback feedbackData={feedbackData} />
+        {/* <Feedback feedbackData={feedbackData} /> */}
         {/* <button onClick={this.handleclick}>«Use this template»</button>  */}
       </>
     );
